@@ -1,4 +1,4 @@
-package com.example.starter
+package tech.luijben.infowijs
 
 import io.vertx.core.Future
 import io.vertx.core.VerticleBase
