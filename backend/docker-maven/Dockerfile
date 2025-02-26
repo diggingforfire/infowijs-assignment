@@ -10,7 +10,7 @@ ENV APP_FILE=infowijs.jar
 EXPOSE 8888
 
 WORKDIR $APP_DIR
-COPY --from=builder /project/target/infowijs-*-fat.jar $APP_DIR/$APP_FILE
+COPY --from=builder /project/target/infowijs-backend*-fat.jar $APP_DIR/$APP_FILE
 
 ENTRYPOINT ["sh", "-c"]
 CMD ["exec java -jar $APP_FILE"]
