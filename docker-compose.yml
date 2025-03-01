@@ -1,4 +1,14 @@
 services:
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: frontend
+    ports:
+      - "8887:80"
+    depends_on:
+      - backend
+
+
   backend:
     build:
       dockerfile: docker-maven/Dockerfile
