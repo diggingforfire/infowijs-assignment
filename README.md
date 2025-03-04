@@ -23,6 +23,8 @@ You may now visit:
 
 * A backend endpoint that returns an appointment that was seeded into the database: http://localhost:8888/appointment/ef9eeb02-4aa3-4d69-98d9-02db0619cd1b
 * A frontend landing page: http://localhost:8887/
+* A frontend page where you can register attendees: http://localhost:5173/appointment/ef9eeb02-4aa3-4d69-98d9-02db0619cd1b
+* A frontend page where you can create new appointments (readonly, no calls to backend): http://localhost:5173/appointment/create
 
 
 # Choices and rationale
@@ -45,9 +47,12 @@ Most of the time spent on the backend was reading and understanding Vert.X and w
 
 * When it comes to ORM, the options are a bit limited. There is a reactive API for hibernate, but it requires non-final members for proxying and lazy loading. That doesn't work well with Kotlin, which promotes immutability. [Sqldelight](https://github.com/sqldelight/sqldelight) looks promising, but I ended up going the simple route and used SqlClientTemplates. They work for simple use cases, but there is a lot of manual SQL writing, mapping, not an easy way of doing transactions etc.
 
+* Appointments have a code (UUID) property for sharing purposes. In a real system, people would probably be logged in and authorized to view something instead of hiding it behind a hard to guess id (or maybe not :)).
+
 Given more time, I would have added:
 
 * a nice ORM (with entities, repositories etc) 
+* authentication
 * a decent DI container
 * unit/integration/e2e tests
 * architecture diagrams
@@ -60,4 +65,15 @@ Given more time, I would have added:
 
 ## Frontend
 
-I didn't spend too much time on the frontend. I scaffolded a [HeroUI](https://www.heroui.com/) project with Vite + React + TypeScript + Tailwind. 
+I didn't spend too much time on the frontend. I scaffolded a [HeroUI](https://www.heroui.com/) project with Vite + React + TypeScript + Tailwind. I added React query and removed a bunch of generated code (but not everything). The interesting parts to look at:
+
+* `src/components/CreateAppointment.tsx`
+* `src/components/ViewAppointment.tsx`
+* `src/components/RegisterAttendee.tsx`
+
+Given more time, I would have added:
+
+* better UX in general
+* more error handling
+* a few test cases
+* more advanced state management
