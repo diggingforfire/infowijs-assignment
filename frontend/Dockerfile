@@ -1,4 +1,4 @@
-FROM node:lts as builder
+FROM node:lts-slim as builder
 
 WORKDIR /app
 COPY package*.json ./
@@ -8,6 +8,6 @@ COPY . .
 RUN npm run build
 
 FROM nginx:mainline
-COPY --from=builder /app/dist /usr/share/nginx/html/
+COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
