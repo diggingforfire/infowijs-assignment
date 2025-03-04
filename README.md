@@ -22,9 +22,8 @@ This starts up three containers (frontend, backend, database) provided that the 
 You may now visit:
 
 * A backend endpoint that returns an appointment that was seeded into the database: http://localhost:8888/appointment/ef9eeb02-4aa3-4d69-98d9-02db0619cd1b
-* A frontend landing page: http://localhost:8887/
-* A frontend page where you can register attendees: http://localhost:5173/appointment/ef9eeb02-4aa3-4d69-98d9-02db0619cd1b
-* A frontend page where you can create new appointments (readonly, no calls to backend): http://localhost:5173/appointment/create
+* A frontend page where you can register attendees: http://localhost:8887/appointment/ef9eeb02-4aa3-4d69-98d9-02db0619cd1b
+* A frontend page where you can create new appointments (readonly, no calls to backend): http://localhost:8887/appointment/create
 
 
 # Choices and rationale
