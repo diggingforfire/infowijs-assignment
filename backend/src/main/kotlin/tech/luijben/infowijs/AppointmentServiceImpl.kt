@@ -58,12 +58,6 @@ class AppointmentServiceImpl (private val client: SqlClient) : AppointmentServic
               "INSERT INTO appointment_date (appointment_id, start, \"end\") " +
                 "VALUES (#{appointment_id},#{start},#{end})")
             .execute(parameters)
-            .onSuccess{ v ->
-              println(v)
-            }
-            .onFailure { e ->
-              println(e)
-            }
         }
 
         Future.succeededFuture(insertedCode)

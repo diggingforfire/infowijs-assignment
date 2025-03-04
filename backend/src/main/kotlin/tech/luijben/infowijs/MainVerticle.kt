@@ -50,8 +50,7 @@ class MainVerticle (private val appointmentService: AppointmentService) : Abstra
               .putHeader("Content-Type", "application/json")
               .end("{ 'inserted_code': $insertedCode }")
         }.onFailure {
-          response.statusCode = 500
-          response.end()
+          response.setStatusCode(500).end()
         }
     }
 
@@ -64,11 +63,9 @@ class MainVerticle (private val appointmentService: AppointmentService) : Abstra
 
       appointmentService.addAppointmentAttendee(dateId, email)
         .onSuccess {
-          response.statusCode = 200
-          response.end()
+          response.setStatusCode(200).end()
         }.onFailure {
-          response.statusCode = 500
-          response.end()
+          response.setStatusCode(500).end()
         }
     }
 
@@ -83,8 +80,7 @@ class MainVerticle (private val appointmentService: AppointmentService) : Abstra
             .end(dates.map { it.encode() }.toString());
         }.onFailure { error ->
           println(error.message)
-          response.statusCode = 500
-          response.end()
+          response.setStatusCode(500).end()
         }
     }
 
