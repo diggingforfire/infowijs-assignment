@@ -47,13 +47,17 @@ Most of the time spent on the backend was reading and understanding Vert.X and w
 
 Given more time, I would have added:
 
-* a nice ORM (with entities, repositories etc)
+* a nice ORM (with entities, repositories etc) 
 * a decent DI container
 * unit/integration/e2e tests
 * architecture diagrams
 * data binding instead of manually parsing JSON
 * logging (maybe OpenTelemetry)
 * integration with AWS (ECS, S3, etc)
+* Swagger-like API docs
+* ... and so on
 
 
 ## Frontend
+
+I didn't spend too much time on the frontend. I scaffolded a [HeroUI](https://www.heroui.com/) project with Vite + React + TypeScript + Tailwind. 
