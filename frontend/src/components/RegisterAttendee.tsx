@@ -30,6 +30,9 @@ export const RegisterAttendee = ({
   isEnabled,
 }: RegisterAttendeeProps) => {
   const [email, setEmail] = useState("");
+  const [hasRegistered, setHasRegistered] = useState(false);
+
+  const canRegister = () => isEnabled && !hasRegistered;
 
   const mutation = useMutation({
     mutationFn: (body: { dateId: number; email: string }) => {
@@ -49,6 +52,7 @@ export const RegisterAttendee = ({
             addToast({
               title: "Ingeschreven!",
             });
+            setHasRegistered(true);
           },
           onError: () => {
             addToast({
@@ -68,17 +72,17 @@ export const RegisterAttendee = ({
         value={toDisplayString(start, end)}
       />
       <Input
-        isDisabled={!isEnabled}
-        isReadOnly={!isEnabled}
+        isDisabled={!canRegister()}
+        isReadOnly={!canRegister()}
         maxLength={200}
-        placeholder={isEnabled ? "Email" : "Bezet"}
+        placeholder={canRegister() ? "Email" : "Bezet"}
         value={email}
         onValueChange={setEmail}
       />
       <Button
         className="flex-1"
         color={"primary"}
-        isDisabled={!isEnabled || !email?.length}
+        isDisabled={!canRegister() || !email?.length}
         onPress={save}
       >
         Inschrijven
