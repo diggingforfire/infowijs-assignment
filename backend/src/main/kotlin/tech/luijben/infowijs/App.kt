@@ -22,6 +22,7 @@ fun main(args: Array<String>) {
 private fun createSqlClient(vertx: Vertx): SqlClient {
 
   // these should come from a proper source like environment variables
+  // and loaded through configuration
   val connectOptions: PgConnectOptions = PgConnectOptions()
     .setPort(5432)
     .setHost("localhost")
