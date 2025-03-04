@@ -31,6 +31,9 @@ class MainVerticle (private val appointmentService: AppointmentService) : Abstra
 
     router.route().handler(BodyHandler.create())
 
+    // NOTE: all routes should do some proper input validation/sanitation
+    // NOTE: proper data binding would alleviate the need for manually parsing JSON
+
     router.route(HttpMethod.POST, "/appointment/").handler { routingContext ->
       val response = routingContext.response()
       val json = routingContext.body().asJsonObject()

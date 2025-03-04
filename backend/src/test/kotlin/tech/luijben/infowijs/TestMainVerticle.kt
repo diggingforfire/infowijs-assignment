@@ -2,7 +2,6 @@ package tech.luijben.infowijs
 
 import io.vertx.core.Future
 import io.vertx.core.Vertx
-import io.vertx.core.buffer.Buffer
 import io.vertx.core.http.HttpClient
 import io.vertx.core.http.HttpClientRequest
 import io.vertx.core.http.HttpClientResponse
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.util.concurrent.CompletableFuture
 
 
 @ExtendWith(VertxExtension::class)
@@ -26,6 +24,7 @@ class TestMainVerticle {
     vertx.deployVerticle(MainVerticle(appointmentService)).onComplete(testContext.succeeding { _ -> testContext.completeNow() })
   }
 
+  // NOTE: there should be tests for happy paths and common error scenarios
   @Test
   fun test_missing_code_parameter(vertx: Vertx, testContext: VertxTestContext) {
     val httpClient: HttpClient = vertx.createHttpClient()

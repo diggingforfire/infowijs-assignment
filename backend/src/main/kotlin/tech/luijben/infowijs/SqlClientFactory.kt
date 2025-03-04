@@ -10,11 +10,10 @@ class SqlClientFactory {
   companion object {
     fun createSqlClient(vertx: Vertx): SqlClient {
 
-      // these should come from a proper source like environment variables
-      // and loaded through configuration
+      // NOTE: these settings should come from a proper source like environment variables or a secret store
       val connectOptions: PgConnectOptions = PgConnectOptions()
         .setPort(5432)
-        .setHost("localhost")
+        .setHost("database")
         .setDatabase("infowijs")
         .setUser("infowijs")
         .setPassword("infowijs-secret")

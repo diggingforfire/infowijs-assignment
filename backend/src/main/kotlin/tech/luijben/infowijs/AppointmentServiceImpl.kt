@@ -13,6 +13,7 @@ import java.util.*
 class AppointmentServiceImpl (private val client: SqlClient) : AppointmentService {
 
   override fun getAppointmentDates(code: String) : Future<List<JsonObject>> {
+    // NOTE: this function should return nicely structured entities
     return SqlTemplate.forQuery(client,
       "SELECT a.id, a.code, a.title, a.description, " +
       "ad.id as date_id, ad.start as date_start, ad.\"end\" as date_end, " +
@@ -50,6 +51,7 @@ class AppointmentServiceImpl (private val client: SqlClient) : AppointmentServic
         val insertedId = row.first().getInteger("id")
         val insertedCode = row.first().getUUID("code")
 
+        // NOTE: all inserts in this function should happen inside of a transaction
         for (datePair in dates) {
           val parameters = mapOf("appointment_id" to insertedId, "start" to datePair.first, "end" to datePair.second)
 
