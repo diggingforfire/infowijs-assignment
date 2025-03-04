@@ -19,7 +19,9 @@ services:
       - database
 
   database:
-    image: postgres:17
+    build: 
+      dockerfile: database/Dockerfile
+      context: backend
     ports:
       - "5432:5432"
     environment:
@@ -29,7 +31,6 @@ services:
       - POSTGRES_INITDB_ARGS=--auth=md5
     volumes:
       - postgres:/var/lib/postgresql/data
-
 
 volumes:
   postgres:
