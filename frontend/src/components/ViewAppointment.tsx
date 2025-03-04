@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { parseAbsoluteToLocal } from "@internationalized/date";
+
+import { uglyMap } from "./util";
+import { RegisterAttendee } from "./RegisterAttendee";
 
 import { Appointment } from "@/models/Appointment";
 import { AppointmentResponseDetail } from "@/api/AppointmentResponse";
 import { AppointmentDate } from "@/models/AppointmentDate";
+import { title, subtitle } from "@/components/primitives";
+
 export const ViewAppointment = () => {
   const params = useParams();
   const code = params["code"];
@@ -20,76 +24,8 @@ export const ViewAppointment = () => {
       const response = await fetch(`http://localhost:8888/appointment/${code}`);
       const appointmentResponseDetails: AppointmentResponseDetail[] =
         await response.json();
-      const appointment = appointmentResponseDetails.length
-        ? ({
-            title: appointmentResponseDetails[0].title,
-            description: appointmentResponseDetails[0].description,
-          } as Appointment)
-        : null;
 
-      const appointmentDates: Map<Number, AppointmentDate[]> =
-        appointmentResponseDetails.reduce((map, detail) => {
-          const date = {
-            id: detail.date_id,
-            start: parseAbsoluteToLocal(detail.date_start),
-            end: parseAbsoluteToLocal(detail.date_end),
-            attendees: detail.date_attendee_email
-              ? [detail.date_attendee_email]
-              : [],
-          } as AppointmentDate;
-
-          if (!map.has(detail.date_id)) {
-            map.set(detail.date_id, [date]);
-          } else {
-            map.get(detail.date_id)?.push(date);
-          }
-
-          return map;
-        }, new Map<Number, AppointmentDate[]>());
-
-      const dates: AppointmentDate[] = [...appointmentDates.entries()].map(
-        (e) =>
-          ({
-            id: e[0],
-            attendees: e[1].flatMap((d) => d.attendees),
-          }) as AppointmentDate,
-      );
-
-      debugger;
-
-      return { appointment, dates };
-
-      // if (!appointmentDetails.length) {
-      //   return null;
-      // }
-
-      // //mapping wouldn't be necessary here if the API returned nicely structured json
-
-      // const appointmentDates: Map<Number, AppointmentDate[]> =
-      //   appointmentDetails.reduce((map, detail) => {
-      //     const date = {
-      //       start: parseAbsoluteToLocal(detail.date_start),
-      //       end: parseAbsoluteToLocal(detail.date_end),
-      //       attendees: [],
-      //     } as AppointmentDate;
-
-      //     if (!map.has(detail.date_id)) {
-      //       map.set(detail.date_id, [date]);
-      //     } else {
-      //       map.get(detail.date_id)?.push(date);
-      //     }
-
-      //     return map;
-      //   }, new Map<Number, AppointmentDate[]>());
-
-      // const dates = [... appointmentDates.entries()];
-      // debugger;
-      // const appointment = {
-      //   title: appointmentDetails[0].title,
-      //   description: appointmentDetails[1].description,
-      // } as Appointment;
-
-      // return appointment;
+      return uglyMap(appointmentResponseDetails);
     },
   });
 
@@ -102,9 +38,27 @@ export const ViewAppointment = () => {
   }
 
   return (
-    <div>
-      <div>{data.appointment?.title}</div>
-      <div>{data.appointment?.description}</div>
-    </div>
+    <>
+      <div className="flex flex-col justify-center mb-10">
+        <div className={`${title()} text-center`}>
+          {data.appointment?.title}
+        </div>
+        <div className={`${subtitle()} text-center`}>
+          {data.appointment?.description}
+        </div>
+      </div>
+      <div className="flex flex-col gap-5">
+        {data.dates.map((dateTime) => (
+          <div key={dateTime.id}>
+            <RegisterAttendee
+              dateId={dateTime.id}
+              end={dateTime.end}
+              isEnabled={!dateTime.attendees.length}
+              start={dateTime.start}
+            />
+          </div>
+        ))}
+      </div>
+    </>
   );
 };

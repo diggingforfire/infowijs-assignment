@@ -16,7 +16,9 @@ export const CreateAppointment = () => {
     setDateTimes([...dateTimes, now(getLocalTimeZone())]);
   };
 
-  const save = () => {};
+  const save = () => {
+    // TODO: call backend here
+  };
 
   return (
     <div className="flex flex-col gap-y-6">
@@ -42,13 +44,13 @@ export const CreateAppointment = () => {
         </Button>
       </div>
 
-      {dateTimes.map((dt) => (
+      {dateTimes.map((dateTime) => (
         <DatePicker
           key={""}
           hideTimeZone
           showMonthAndYearPickers
           label="Voorgestelde datum en tijd"
-          value={dt}
+          value={dateTime}
           variant="bordered"
         />
       ))}
